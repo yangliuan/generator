@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,12 +7,12 @@
  * Time: 10:34 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
-use Summerblue\Generator\Migrations\SchemaParser;
-use Summerblue\Generator\Migrations\SyntaxBuilder;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Migrations\SchemaParser;
+use Yangliuan\Generator\Migrations\SyntaxBuilder;
 
 class MakeModel
 {
@@ -61,7 +62,7 @@ class MakeModel
      */
     protected function compileModelStub()
     {
-        $stub = $this->files->get(substr(__DIR__,0, -5) . 'Stubs/model.stub');
+        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/model.stub');
 
         $this->buildStub($this->scaffoldCommandObj->getMeta(), $stub);
         $this->buildFillable($stub);
@@ -83,7 +84,7 @@ class MakeModel
         if ($schema)
         {
             $items = (new SchemaParser)->parse($schema);
-            foreach($items as $item)
+            foreach ($items as $item)
             {
                 $schemaArray[] = "'{$item['name']}'";
             }
@@ -103,7 +104,7 @@ class MakeModel
         {
             $this->makeDirectory($base_model_path);
             $this->files->put($base_model_path, $this->compileBaseModelStub());
-            return $this->scaffoldCommandObj->info("+ $base_model_path". ' (Updated)');
+            return $this->scaffoldCommandObj->info("+ $base_model_path" . ' (Updated)');
         }
 
         return $this->scaffoldCommandObj->comment("x $base_model_path" . ' (Skipped)');
@@ -111,7 +112,7 @@ class MakeModel
 
     protected function compileBaseModelStub()
     {
-        $stub = $this->files->get(substr(__DIR__,0, -5) . 'Stubs/base_model.stub');
+        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/base_model.stub');
 
         $this->buildStub($this->scaffoldCommandObj->getMeta(), $stub);
         $this->buildFillable($stub);

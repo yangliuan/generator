@@ -1,5 +1,5 @@
 {
-  "name": "summerblue/generator",
+  "name": "yangliuan/generator",
   "description": "Extend Laravel's generators scaffold.",
   "keywords": [
     "laravel",
@@ -17,6 +17,10 @@
     {
       "name": "Summer",
       "email": "summer@learnku.com"
+    },
+    {
+      "name": "yangliuan",
+      "email": "yangliuancn@foxmail.com"
     }
   ],
   "require": {
@@ -28,13 +32,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Summerblue\\Generator\\": "src/"
+      "Yangliuan\\Generator\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Summerblue\\Generator\\GeneratorsServiceProvider"
+        "Yangliuan\\Generator\\GeneratorsServiceProvider"
       ]
     }
   }

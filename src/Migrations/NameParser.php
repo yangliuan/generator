@@ -1,10 +1,10 @@
 <?php
 
-namespace Summerblue\Generator\Migrations;
+namespace Yangliuan\Generator\Migrations;
 
 /**
  * Class NameParser
- * @package Summerblue\Generator\Migrations with modifications by Fernando
+ * @package Yangliuan\Generator\Migrations with modifications by Fernando
  * @author Jeffrey Way <jeffrey@jeffrey-way.com>
  */
 class NameParser
@@ -20,7 +20,8 @@ class NameParser
     {
         $segments = array_reverse(explode('_', $name));
 
-        if ($segments[0] == 'table') {
+        if ($segments[0] == 'table')
+        {
             array_shift($segments);
         }
 
@@ -40,8 +41,10 @@ class NameParser
     {
         $tableName = [];
 
-        foreach ($segments as $segment) {
-            if ($this->isConnectingWord($segment)) {
+        foreach ($segments as $segment)
+        {
+            if ($this->isConnectingWord($segment))
+            {
                 break;
             }
 
@@ -71,7 +74,8 @@ class NameParser
      */
     private function normalizeActionName($action)
     {
-        switch ($action) {
+        switch ($action)
+        {
             case 'create':
             case 'make':
                 return 'create';
@@ -101,5 +105,4 @@ class NameParser
 
         return in_array($segment, $connectors);
     }
-
 }

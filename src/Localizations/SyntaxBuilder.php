@@ -1,10 +1,10 @@
 <?php
 
-namespace Summerblue\Generator\Localizations;
+namespace Yangliuan\Generator\Localizations;
 
 /**
  * Class SyntaxBuilder
- * @package Summerblue\Generator\Migrations
+ * @package Yangliuan\Generator\Migrations
  * @author Ryan Gurnick <ryangurnick@gmail.com>
  */
 class SyntaxBuilder
@@ -30,8 +30,10 @@ class SyntaxBuilder
     private function createSchemaForLocalization($schema)
     {
         $localization = '';
-        if(is_array($schema)) {
-            foreach ($schema as $k => $v) {
+        if (is_array($schema))
+        {
+            foreach ($schema as $k => $v)
+            {
                 $localization .= "'" . $v['name'] . "' => '" . $v['argument'] . "',\n\t";
             }
         }

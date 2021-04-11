@@ -1,8 +1,9 @@
 <?php
 
-namespace Summerblue\Generator;
+namespace Yangliuan\Generator;
 
-class GeneratorException extends \Exception {
+class GeneratorException extends \Exception
+{
 
     /**
      * The exception description.
@@ -10,5 +11,4 @@ class GeneratorException extends \Exception {
      * @var string
      */
     protected $message = 'Could not determine what you are trying to do. Sorry! Check your migration name.';
-
 }

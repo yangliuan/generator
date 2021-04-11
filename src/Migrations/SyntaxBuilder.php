@@ -1,13 +1,13 @@
 <?php
 
-namespace Summerblue\Generator\Migrations;
+namespace Yangliuan\Generator\Migrations;
 
-use Summerblue\Generator\GeneratorException;
+use Yangliuan\Generator\GeneratorException;
 
 
 /**
  * Class SyntaxBuilder with modifications by Fernando
- * @package Summerblue\Generator\Migrations
+ * @package Yangliuan\Generator\Migrations
  * @author Jeffrey Way <jeffrey@jeffrey-way.com>
  */
 class SyntaxBuilder
@@ -30,7 +30,8 @@ class SyntaxBuilder
      *
      * @param $value
      */
-    public function setIllumination($value) {
+    public function setIllumination($value)
+    {
         $this->illuminate = $value;
     }
 
@@ -49,45 +50,51 @@ class SyntaxBuilder
     {
         $this->setIllumination($illuminate);
 
-        if ($type == "migration") {
+        if ($type == "migration")
+        {
 
             $up = $this->createSchemaForUpMethod($schema, $meta);
             $down = $this->createSchemaForDownMethod($schema, $meta);
             return compact('up', 'down');
-
-
-        } else if ($type == "controller") {
+        }
+        else if ($type == "controller")
+        {
 
             $fieldsc = $this->createSchemaForControllerMethod($schema, $meta);
             return $fieldsc;
-
-
-        } else if ($type == "view-index-header") {
+        }
+        else if ($type == "view-index-header")
+        {
 
             $fieldsc = $this->createSchemaForViewMethod($schema, $meta, 'index-header');
             return $fieldsc;
-
-        } else if ($type == "view-index-content") {
+        }
+        else if ($type == "view-index-content")
+        {
 
             $fieldsc = $this->createSchemaForViewMethod($schema, $meta, 'index-content');
             return $fieldsc;
-
-        } else if ($type == "view-show-content") {
+        }
+        else if ($type == "view-show-content")
+        {
 
             $fieldsc = $this->createSchemaForViewMethod($schema, $meta, 'show-content');
             return $fieldsc;
-
-        } else if ($type == "view-edit-content") {
+        }
+        else if ($type == "view-edit-content")
+        {
 
             $fieldsc = $this->createSchemaForViewMethod($schema, $meta, 'edit-content');
             return $fieldsc;
-
-        } else if ($type == "view-create-content") {
+        }
+        else if ($type == "view-create-content")
+        {
 
             $fieldsc = $this->createSchemaForViewMethod($schema, $meta, 'create-content');
             return $fieldsc;
-
-        } else {
+        }
+        else
+        {
             throw new \Exception("Type not found in syntaxBuilder");
         }
     }
@@ -105,16 +112,18 @@ class SyntaxBuilder
         //dd($schema);
         $fields = $this->constructSchema($schema);
 
-
-        if ($meta['action'] == 'create') {
+        if ($meta['action'] == 'create')
+        {
             return $this->insert($fields)->into($this->getCreateSchemaWrapper());
         }
 
-        if ($meta['action'] == 'add') {
+        if ($meta['action'] == 'add')
+        {
             return $this->insert($fields)->into($this->getChangeSchemaWrapper());
         }
 
-        if ($meta['action'] == 'remove') {
+        if ($meta['action'] == 'remove')
+        {
             $fields = $this->constructSchema($schema, 'Drop');
 
             return $this->insert($fields)->into($this->getChangeSchemaWrapper());
@@ -137,13 +146,15 @@ class SyntaxBuilder
     {
         // If the user created a table, then for the down
         // method, we should drop it.
-        if ($meta['action'] == 'create') {
+        if ($meta['action'] == 'create')
+        {
             return sprintf("Schema::drop('%s');", $meta['table']);
         }
 
         // If the user added columns to a table, then for
         // the down method, we should remove them.
-        if ($meta['action'] == 'add') {
+        if ($meta['action'] == 'add')
+        {
             $fields = $this->constructSchema($schema, 'Drop');
 
             return $this->insert($fields)->into($this->getChangeSchemaWrapper());
@@ -151,7 +162,8 @@ class SyntaxBuilder
 
         // If the user removed columns from a table, then for
         // the down method, we should add them back on.
-        if ($meta['action'] == 'remove') {
+        if ($meta['action'] == 'remove')
+        {
             $fields = $this->constructSchema($schema);
 
             return $this->insert($fields)->into($this->getChangeSchemaWrapper());
@@ -217,7 +229,8 @@ class SyntaxBuilder
     {
         if (!$schema) return '';
 
-        $fields = array_map(function ($field) use ($direction) {
+        $fields = array_map(function ($field) use ($direction)
+        {
             $method = "{$direction}Column";
             return $this->$method($field);
         }, $schema);
@@ -239,51 +252,60 @@ class SyntaxBuilder
     {
 
 
-        if ($type == 'migration') {
+        if ($type == 'migration')
+        {
 
             $syntax = sprintf("\$table->%s('%s')", $field['type'], $field['name']);
 
             // If there are arguments for the schema type, like decimal('amount', 5, 2)
             // then we have to remember to work those in.
-            if ($field['arguments']) {
+            if ($field['arguments'])
+            {
                 $syntax = substr($syntax, 0, -1) . ', ';
 
                 $syntax .= implode(', ', $field['arguments']) . ')';
             }
 
-            foreach ($field['options'] as $method => $value) {
+            foreach ($field['options'] as $method => $value)
+            {
                 $syntax .= sprintf("->%s(%s)", $method, $value === true ? '' : $value);
             }
 
             $syntax .= ';';
-
-
-        } elseif ($type == 'view-index-header') {
+        }
+        elseif ($type == 'view-index-header')
+        {
 
             // Fields to index view
             $syntax = sprintf("<th>%s", strtoupper($field['name']));
             $syntax .= '</th>';
-
-        } elseif ($type == 'view-index-content') {
+        }
+        elseif ($type == 'view-index-content')
+        {
 
             // Fields to index view
             $syntax = sprintf("<td>{{\$%s->%s", $meta['var_name'], strtolower($field['name']));
             $syntax .= '}}</td>';
-
-        } elseif ($type == 'view-show-content') {
+        }
+        elseif ($type == 'view-show-content')
+        {
 
             // Fields to show view
             $syntax = sprintf("<div class=\"form-group\">\n" .
                 str_repeat(' ', 21) . "<label for=\"%s\">%s</label>\n" .
                 str_repeat(' ', 21) . "<p class=\"form-control-static\">{{\$%s->%s}}</p>\n" .
                 str_repeat(' ', 16) . "</div>", strtolower($field['name']), strtoupper($field['name']), $meta['var_name'], strtolower($field['name']));
-
-
-        } elseif ($type == 'view-edit-content') {
+        }
+        elseif ($type == 'view-edit-content')
+        {
             $syntax = $this->buildField($field, $type, $meta['var_name']);
-        } elseif ($type == 'view-create-content') {
+        }
+        elseif ($type == 'view-create-content')
+        {
             $syntax = $this->buildField($field, $type, $meta['var_name'], false);
-        } else {
+        }
+        else
+        {
             // Fields to controller
             $syntax = sprintf("\$%s->%s = \$request->input(\"%s", $meta['var_name'], $field['name'], $field['name']);
             $syntax .= '");';
@@ -306,15 +328,19 @@ class SyntaxBuilder
         $column = strtolower($field['name']);
         $title = ucfirst($field['name']);
 
-        if ($value === true) {
+        if ($value === true)
+        {
             $value = '$' . $variable . '->' . $column;
-        } else {
-            $value = 'old("'.$column.'")';
+        }
+        else
+        {
+            $value = 'old("' . $column . '")';
         }
 
         $syntax = [];
 
-        switch($type) {
+        switch ($type)
+        {
             case 'string':
             default:
                 $input = 'text';
@@ -324,12 +350,15 @@ class SyntaxBuilder
                 break;
         }
 
-        $syntax[] = '<div class="form-group @if($errors->has('."'". $column . "'".')) has-error @endif">';
+        $syntax[] = '<div class="form-group @if($errors->has(' . "'" . $column . "'" . ')) has-error @endif">';
         $syntax[] = '   <label for="' . $column . '-field">' . $title . '</label>';
 
-        if($this->illuminate) {
+        if ($this->illuminate)
+        {
             $syntax[] = '   {!! Form::' . $input . '("' . $column . '", ' . $value . ', array("class" => "form-control", "id" => "' . $column . '-field")) !!}';
-        } else {
+        }
+        else
+        {
             $syntax[] = $this->htmlField($column, $variable, $field, $type);
         }
 
@@ -338,7 +367,7 @@ class SyntaxBuilder
         $syntax[] = '   @endif';
         $syntax[] = '</div>';
 
-        return join("\n".str_repeat(' ', 20), $syntax);
+        return join("\n" . str_repeat(' ', 20), $syntax);
     }
 
 
@@ -367,7 +396,8 @@ class SyntaxBuilder
 
         if (!$schema) return '';
 
-        $fields = array_map(function ($field) use ($meta) {
+        $fields = array_map(function ($field) use ($meta)
+        {
             return $this->AddColumn($field, 'controller', $meta);
         }, $schema);
 
@@ -390,32 +420,36 @@ class SyntaxBuilder
 
         if (!$schema) return '';
 
-        $fields = array_map(function ($field) use ($meta, $type) {
+        $fields = array_map(function ($field) use ($meta, $type)
+        {
             return $this->AddColumn($field, 'view-' . $type, $meta);
         }, $schema);
 
 
         // Format code
-        if ($type == 'index-header') {
+        if ($type == 'index-header')
+        {
             return implode("\n" . str_repeat(' ', 24), $fields);
-        } else {
+        }
+        else
+        {
             // index-content
             return implode("\n" . str_repeat(' ', 20), $fields);
         }
-
     }
 
     private function htmlField($column, $variable, $field, $type)
     {
 
-        $value = '{{ old("'.$column.'") }}';
+        $value = '{{ old("' . $column . '") }}';
 
-        if($type == 'view-edit-content')
+        if ($type == 'view-edit-content')
         {
-            $value = '{{ is_null(old("'.$column.'")) ? $'.$variable.'->'.$column.' : old("'.$column.'") }}';
+            $value = '{{ is_null(old("' . $column . '")) ? $' . $variable . '->' . $column . ' : old("' . $column . '") }}';
         }
 
-        switch ($field['type']) {
+        switch ($field['type'])
+        {
             case 'date':
                 $layout = "<input type=\"text\" id=\"$column-field\" name=\"$column\" class=\"form-control date-picker\" value=\"$value\"/>";
                 break;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,12 +7,12 @@
  * Time: 10:34 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
-use Summerblue\Generator\Migrations\SchemaParser;
-use Summerblue\Generator\Migrations\SyntaxBuilder;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Migrations\SchemaParser;
+use Yangliuan\Generator\Migrations\SyntaxBuilder;
 
 class MakeRoute
 {
@@ -43,12 +44,13 @@ class MakeRoute
         $route_name = floatval(app()::VERSION) < 5.3 ? 'route_old' : 'route';
         $path = $this->getPath($name, $route_name);
         $stub = $this->compileRouteStub();
-        
-        if (strpos($this->files->get($path), $stub) === false) {
+
+        if (strpos($this->files->get($path), $stub) === false)
+        {
             $this->files->append($path, $this->compileRouteStub());
             return $this->scaffoldCommandObj->info('+ ' . $path . ' (Updated)');
         }
-        
+
         return $this->scaffoldCommandObj->comment("x $path" . ' (Skipped)');
     }
 
@@ -59,7 +61,7 @@ class MakeRoute
      */
     protected function compileRouteStub()
     {
-        $stub = $this->files->get(substr(__DIR__,0, -5) . 'Stubs/route.stub');
+        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/route.stub');
 
         $this->buildStub($this->scaffoldCommandObj->getMeta(), $stub);
 

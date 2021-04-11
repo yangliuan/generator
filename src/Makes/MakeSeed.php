@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,10 +7,10 @@
  * Time: 10:34 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
 
 class MakeSeed
 {
@@ -47,7 +48,8 @@ class MakeSeed
         $name = $this->scaffoldCommandObj->getObjName('Name');
         $path = $this->getPath($name, 'factory');
 
-        if (!$this->files->exists($path)) {
+        if (!$this->files->exists($path))
+        {
             $this->makeDirectory($path);
             $this->files->put($path, $this->compileStub('factory'));
 
@@ -61,7 +63,8 @@ class MakeSeed
     {
         $path = $this->getPath($this->scaffoldCommandObj->getObjName('Names') . 'TableSeeder', 'seed');
 
-        if ($this->files->exists($path)) {
+        if ($this->files->exists($path))
+        {
             return $this->scaffoldCommandObj->comment('x ' . $path);
         }
 
@@ -76,7 +79,8 @@ class MakeSeed
         $content = $this->files->get($path);
         $name = $this->scaffoldCommandObj->getObjName('Names') . 'TableSeeder';
 
-        if (strpos($content, $name) === false) {
+        if (strpos($content, $name) === false)
+        {
 
             $content = str_replace(
                 '(UsersTableSeeder::class);',

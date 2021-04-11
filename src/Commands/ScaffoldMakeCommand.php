@@ -1,22 +1,22 @@
 <?php
 
-namespace Summerblue\Generator\Commands;
+namespace Yangliuan\Generator\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Input;
-use Summerblue\Generator\Makes\MakeController;
-use Summerblue\Generator\Makes\MakeLayout;
-use Summerblue\Generator\Makes\MakeLocalization;
-use Summerblue\Generator\Makes\MakeMigration;
-use Summerblue\Generator\Makes\MakeModel;
-use Summerblue\Generator\Makes\MakeRoute;
-use Summerblue\Generator\Makes\MakerTrait;
-use Summerblue\Generator\Makes\MakeSeed;
-use Summerblue\Generator\Makes\MakeView;
-use Summerblue\Generator\Makes\MakeFormRequest;
-use Summerblue\Generator\Makes\MakePolicy;
-use Summerblue\Generator\Makes\MakeModelObserver;
+use Yangliuan\Generator\Makes\MakeController;
+use Yangliuan\Generator\Makes\MakeLayout;
+use Yangliuan\Generator\Makes\MakeLocalization;
+use Yangliuan\Generator\Makes\MakeMigration;
+use Yangliuan\Generator\Makes\MakeModel;
+use Yangliuan\Generator\Makes\MakeRoute;
+use Yangliuan\Generator\Makes\MakerTrait;
+use Yangliuan\Generator\Makes\MakeSeed;
+use Yangliuan\Generator\Makes\MakeView;
+use Yangliuan\Generator\Makes\MakeFormRequest;
+use Yangliuan\Generator\Makes\MakePolicy;
+use Yangliuan\Generator\Makes\MakeModelObserver;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -86,25 +86,68 @@ class ScaffoldMakeCommand extends Command
         $this->line("\n----------- $header -----------\n");
 
         $this->makeMeta();
-        $this->makeMigration();
-        $this->makeSeed();
-        $this->makeModel();
-        $this->makeController();
-        $this->makeFormRequest();
-        $this->makeModelObserver();
-        $this->makePolicy();
-        $this->makeRoute();
-        // $this->makeLocalization(); //ToDo - implement in future version
-        $this->makeViews();
-        $this->makeViewLayout();
 
-        $this->call('migrate');
+        if ($this->confirm('Do you want to make [migration,seed,model,controller,formRequest]?'))
+        {
+            $this->makeMigration();
+            $this->makeSeed();
+            $this->makeModel();
+            $this->makeController();
+            $this->makeFormRequest();
+            goto footer;
+        }
+
+        if ($this->confirm('Do you want to make migration?'))
+        {
+            $this->makeMigration();
+        }
+
+        if ($this->confirm('Do you want to make seed?'))
+        {
+            $this->makeSeed();
+        }
+
+        if ($this->confirm('Do you want to make model?'))
+        {
+            $this->makeModel();
+        }
+
+        if ($this->confirm('Do you want to make controller?'))
+        {
+            $this->makeController();
+        }
+
+        if ($this->confirm('Do you want to make form request?'))
+        {
+            $this->makeFormRequest();
+        }
+
+        if ($this->confirm('Do you want to make model observer?'))
+        {
+            $this->makeModelObserver();
+        }
+
+        if ($this->confirm('Do you want to make policy?'))
+        {
+            $this->makePolicy();
+        }
+
+        // if ($this->confirm('Do you want to make route?'))
+        // {
+        //     $this->makeRoute();
+        // }
+
+        footer:
+
+        if ($this->confirm('Do you want to run migrate?'))
+        {
+            $this->call('migrate');
+        }
 
         $this->line("\n----------- $footer -----------");
         $this->comment("----------- $dump -----------");
 
         $this->composer->dumpAutoloads();
-
     }
 
     /**
@@ -117,7 +160,7 @@ class ScaffoldMakeCommand extends Command
         // ToDo - Verificar utilidade...
         $this->meta['action'] = 'create';
         $this->meta['var_name'] = $this->getObjName("name");
-        $this->meta['table'] = $this->getObjName("names");//obsoleto
+        $this->meta['table'] = $this->getObjName("names"); //obsoleto
 
         $this->meta['ui'] = $this->option('ui');
 
@@ -333,7 +376,8 @@ class ScaffoldMakeCommand extends Command
         $names['name'] = \Str::singular(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
 
 
-        if (!isset($names[$config])) {
+        if (!isset($names[$config]))
+        {
             throw new \Exception("Position name is not found");
         };
 

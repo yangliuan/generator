@@ -1,10 +1,10 @@
 <?php
 
-namespace Summerblue\Generator\Validators;
+namespace Yangliuan\Generator\Validators;
 
 /**
  * Class SchemaParser
- * @package Summerblue\Generator\Migrations
+ * @package Yangliuan\Generator\Migrations
  * @author Ryan Gurnick <ryangurnick@gmail.com>
  */
 class SchemaParser
@@ -28,7 +28,8 @@ class SchemaParser
     {
         $fields = $this->splitIntoFields($schema);
 
-        foreach ($fields as $field) {
+        foreach ($fields as $field)
+        {
             $segments = $this->parseSegments($field);
 
             $this->addField($segments);
@@ -77,5 +78,4 @@ class SchemaParser
         // Like: string(100)
         return compact('name', 'arguments');
     }
-
 }

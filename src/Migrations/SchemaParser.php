@@ -1,10 +1,10 @@
 <?php
 
-namespace Summerblue\Generator\Migrations;
+namespace Yangliuan\Generator\Migrations;
 
 /**
  * Class SchemaParser with modifications by Fernando
- * @package Summerblue\Generator\Migrations
+ * @package Yangliuan\Generator\Migrations
  * @author Jeffrey Way <jeffrey@jeffrey-way.com>
  */
 class SchemaParser
@@ -28,10 +28,12 @@ class SchemaParser
     {
         $fields = $this->splitIntoFields($schema);
 
-        foreach ($fields as $field) {
+        foreach ($fields as $field)
+        {
             $segments = $this->parseSegments($field);
 
-            if ($this->fieldNeedsForeignConstraint($segments)) {
+            if ($this->fieldNeedsForeignConstraint($segments))
+            {
                 unset($segments['options']['foreign']);
 
                 // If the user wants a foreign constraint, then
@@ -91,7 +93,8 @@ class SchemaParser
 
         // Do we have arguments being used here?
         // Like: string(100)
-        if (preg_match('/(.+?)\(([^)]+)\)/', $type, $matches)) {
+        if (preg_match('/(.+?)\(([^)]+)\)/', $type, $matches))
+        {
             $type = $matches[1];
             $arguments = explode(',', $matches[2]);
         }
@@ -109,12 +112,16 @@ class SchemaParser
     {
         if (empty($options)) return [];
 
-        foreach ($options as $option) {
-            if (\Str::contains($option, '(')) {
+        foreach ($options as $option)
+        {
+            if (\Str::contains($option, '('))
+            {
                 preg_match('/([a-z]+)\(([^\)]+)\)/i', $option, $matches);
 
                 $results[$matches[1]] = $matches[2];
-            } else {
+            }
+            else
+            {
                 $results[$option] = true;
             }
         }
@@ -160,6 +167,4 @@ class SchemaParser
     {
         return array_key_exists('foreign', $segments['options']);
     }
-
 }
-

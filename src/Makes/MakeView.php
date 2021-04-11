@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,12 +7,12 @@
  * Time: 4:58 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
-use Summerblue\Generator\Migrations\SchemaParser;
-use Summerblue\Generator\Migrations\SyntaxBuilder;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Migrations\SchemaParser;
+use Yangliuan\Generator\Migrations\SyntaxBuilder;
 
 class MakeView
 {
@@ -55,7 +56,7 @@ class MakeView
     protected function getSchemaArray()
     {
         // ToDo - schema is required?
-        if($this->scaffoldCommandObj->option('schema') != null)
+        if ($this->scaffoldCommandObj->option('schema') != null)
         {
             if ($schema = $this->scaffoldCommandObj->option('schema'))
             {
@@ -79,8 +80,7 @@ class MakeView
         $destination = $this->getDestinationViews($this->scaffoldCommandObj->getMeta()['models']);
         $metas = $this->scaffoldCommandObj->getMeta();
 
-        $metas = array_merge_recursive
-        (
+        $metas = array_merge_recursive(
             $metas,
             [
                 'form_fields_fillable' => $this->getFields($metas['ui'], 'fillable'),
@@ -104,13 +104,13 @@ class MakeView
 
             $stub = $this->files->get($viewFile);
             $stub = $this->buildStub($metas, $stub);
-            
+
             $this->makeDirectory($viewDestination);
             $this->files->put($viewDestination, $stub);
             $this->scaffoldCommandObj->info("   + $viewFileName");
         }
     }
-    
+
     protected function getFields($ui, $type)
     {
         $stubsFields = $this->getStubFields($ui, $type);
@@ -124,8 +124,8 @@ class MakeView
         {
             $variablesFromField = $this->getVariablesFromField($schema);
             $fieldType = $variablesFromField['field.type'];
-            
-            if(!in_array($fieldType, $stubsFieldsAllow))
+
+            if (!in_array($fieldType, $stubsFieldsAllow))
             {
                 $fieldType = 'default';
             }
@@ -143,7 +143,7 @@ class MakeView
     private function getVariablesFromField($options)
     {
         $data = [];
-     
+
         $data['field.name'] = $options['name'];
         $data['field.Name'] = ucwords($options['name']);
         $data['field.type'] = @$options['type'];

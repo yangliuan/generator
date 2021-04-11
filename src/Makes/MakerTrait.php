@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,10 +7,10 @@
  * Time: 5:00 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
 use Illuminate\Container\Container;
 
 trait MakerTrait
@@ -40,7 +41,7 @@ trait MakerTrait
 
         foreach ($array as $key => $value)
         {
-            if(gettype($value) == 'array')
+            if (gettype($value) == 'array')
             {
                 array_merge(
                     $data,
@@ -65,12 +66,11 @@ trait MakerTrait
         {
             $file = realpath("$path$file");
 
-            if(is_dir($file))
+            if (is_dir($file))
             {
-                $files = array_merge
-                (
+                $files = array_merge(
                     $files,
-                    $this->getFilesRecursive($file.DIRECTORY_SEPARATOR)
+                    $this->getFilesRecursive($file . DIRECTORY_SEPARATOR)
                 );
                 continue;
             }
@@ -90,7 +90,7 @@ trait MakerTrait
      */
     protected function getStubPath()
     {
-        return substr(__DIR__,0, -5) . 'Stubs' . DIRECTORY_SEPARATOR;
+        return substr(__DIR__, 0, -5) . 'Stubs' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -102,7 +102,7 @@ trait MakerTrait
     {
         $stubsFieldsPath = $this->getStubPath() . join(DIRECTORY_SEPARATOR, ['views', $ui, 'fields', $type, '']);
 
-        if($this->existsDirectory($stubsFieldsPath))
+        if ($this->existsDirectory($stubsFieldsPath))
         {
             $this->scaffoldCommandM->error('Stub not found');
             return;
@@ -154,9 +154,9 @@ trait MakerTrait
      */
     protected function buildStub(array $metas, &$template)
     {
-        foreach($metas as $k => $v)
+        foreach ($metas as $k => $v)
         {
-            $template = str_replace("{{". $k ."}}", $v, $template);
+            $template = str_replace("{{" . $k . "}}", $v, $template);
         }
 
         return $template;
@@ -169,63 +169,66 @@ trait MakerTrait
      * @param string $path
      * @return string
      */
-    protected function getPath($file_name, $path='controller')
+    protected function getPath($file_name, $path = 'controller')
     {
-        if($path == "controller")
+        if ($path == "controller")
         {
             return './app/Http/Controllers/' . $file_name . '.php';
         }
-        elseif($path == "request")
+        elseif ($path == "request")
         {
-            return './app/Http/Requests/'.$file_name.'.php';
+            return './app/Http/Requests/' . $file_name . '.php';
         }
-        elseif($path == "observer")
+        elseif ($path == "observer")
         {
-            return './app/Observers/'.$file_name.'.php';
+            return './app/Observers/' . $file_name . '.php';
         }
-        elseif($path == "policy")
+        elseif ($path == "policy")
         {
-            return './app/Policies/'.$file_name.'.php';
+            return './app/Policies/' . $file_name . '.php';
         }
-        elseif($path == "factory")
+        elseif ($path == "factory")
         {
-            return './database/factories/'.$file_name.'Factory.php';
+            return './database/factories/' . $file_name . 'Factory.php';
         }
-        elseif($path == "model")
+        elseif ($path == "model")
         {
-            return './app/Models/'.$file_name.'.php';
+            return './app/Models/' . $file_name . '.php';
         }
-        elseif($path == "model-trait")
+        elseif ($path == "model-trait")
         {
-            return './app/Models/Traits/'.$file_name.'Operation.php';
+            return './app/Models/Traits/' . $file_name . 'Operation.php';
         }
-        elseif($path == "seed")
+        elseif ($path == "seed")
         {
-            return './database/seeders/'.$file_name.'.php';
+            return './database/seeders/' . $file_name . '.php';
         }
-        elseif($path == "view-index")
+        elseif ($path == "view-index")
         {
-            return './resources/views/'.$file_name.'/index.blade.php';
+            return './resources/views/' . $file_name . '/index.blade.php';
         }
-        elseif($path == "view-edit")
+        elseif ($path == "view-edit")
         {
-            return './resources/views/'.$file_name.'/edit.blade.php';
+            return './resources/views/' . $file_name . '/edit.blade.php';
         }
-        elseif($path == "view-show")
+        elseif ($path == "view-show")
         {
-            return './resources/views/'.$file_name.'/show.blade.php';
+            return './resources/views/' . $file_name . '/show.blade.php';
         }
-        elseif($path == "view-create")
+        elseif ($path == "view-create")
         {
-            return './resources/views/'.$file_name.'/create.blade.php';
+            return './resources/views/' . $file_name . '/create.blade.php';
         }
-        elseif($path == "localization"){
-            return './resources/lang/'.$file_name.'.php';
+        elseif ($path == "localization")
+        {
+            return './resources/lang/' . $file_name . '.php';
         }
-        elseif($path == "route"){
+        elseif ($path == "route")
+        {
             return './routes/web.php';
         }
-        elseif($path == "route_old"){
+        elseif ($path == "route_old")
+        {
             return './app/Http/routes.php';
         }
     }
@@ -248,7 +251,7 @@ trait MakerTrait
      */
     protected function makeDirectory($path)
     {
-        if ( ! $this->files->isDirectory(dirname($path)))
+        if (!$this->files->isDirectory(dirname($path)))
         {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
         }
@@ -256,7 +259,7 @@ trait MakerTrait
 
     protected function compileStub($filename)
     {
-        $stub = $this->files->get(substr(__DIR__,0, -5) . 'Stubs/'.$filename.'.stub');
+        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/' . $filename . '.stub');
 
         $this->buildStub($this->scaffoldCommandObj->getMeta(), $stub);
         // $this->replaceValidator($stub);
@@ -273,5 +276,4 @@ trait MakerTrait
     {
         return Container::getInstance()->getNamespace();
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,10 +7,10 @@
  * Time: 11:49 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
 
 class MakeLayout
 {
@@ -52,8 +53,8 @@ class MakeLayout
      */
     protected function putViewLayout($stub, $file)
     {
-        $path_file = $this->getPathResource().$file;
-        $path_stub = substr(__DIR__,0, -5) .$stub;
+        $path_file = $this->getPathResource() . $file;
+        $path_stub = substr(__DIR__, 0, -5) . $stub;
 
         $this->makeDirectory($path_file);
 

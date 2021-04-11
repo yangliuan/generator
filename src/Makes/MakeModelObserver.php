@@ -1,10 +1,11 @@
 <?php
-namespace Summerblue\Generator\Makes;
+
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
-use Summerblue\Generator\Validators\SchemaParser as ValidatorParser;
-use Summerblue\Generator\Validators\SyntaxBuilder as ValidatorSyntax;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Validators\SchemaParser as ValidatorParser;
+use Yangliuan\Generator\Validators\SyntaxBuilder as ValidatorSyntax;
 
 class MakeModelObserver
 {
@@ -53,7 +54,7 @@ class MakeModelObserver
         $this->makeDirectory($path);
 
         // User Observer
-        if ( ! $this->files->exists($userpath))
+        if (!$this->files->exists($userpath))
         {
             $this->files->put($userpath, $this->compileStub('observer_user'));
             $this->scaffoldCommandObj->comment("+ $userpath" . ' (Skipped)');
@@ -75,15 +76,17 @@ class MakeModelObserver
         $path = './app/Providers/AppServiceProvider.php';
         $content = $this->files->get($path);
 
-        if (strpos($content, $observer_name) === false) {
+        if (strpos($content, $observer_name) === false)
+        {
 
             // Using UserOberser as anchor
-            if (strpos($content, 'App\Models\User') === false) {
+            if (strpos($content, 'App\Models\User') === false)
+            {
                 $content = str_replace(
-                "public function boot()
+                    "public function boot()
     {",
-                "public function boot()\n\t{\n\t\t\App\Models\User::observe(\App\Observers\UserObserver::class);\n",
-                $content
+                    "public function boot()\n\t{\n\t\t\App\Models\User::observe(\App\Observers\UserObserver::class);\n",
+                    $content
                 );
             }
 
@@ -91,7 +94,7 @@ class MakeModelObserver
                 'App\Models\User::observe(\App\Observers\UserObserver::class);',
                 "App\Models\User::observe(\App\Observers\UserObserver::class);\n\t\t\App\Models\\$model::observe(\App\Observers\\$observer_name::class);",
                 $content
-                );
+            );
             $this->files->put($path, $content);
 
             return $this->scaffoldCommandObj->info('+ ' . $path . ' (Updated)');
@@ -99,5 +102,4 @@ class MakeModelObserver
 
         return $this->scaffoldCommandObj->comment("x " . $path . ' (Skipped)');
     }
-
 }

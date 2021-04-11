@@ -1,10 +1,11 @@
 <?php
-namespace Summerblue\Generator\Makes;
+
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
-use Summerblue\Generator\Validators\SchemaParser as ValidatorParser;
-use Summerblue\Generator\Validators\SyntaxBuilder as ValidatorSyntax;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Validators\SchemaParser as ValidatorParser;
+use Yangliuan\Generator\Validators\SyntaxBuilder as ValidatorSyntax;
 
 class MakePolicy
 {
@@ -65,7 +66,7 @@ class MakePolicy
 
     protected function compileStub($filename)
     {
-        $stub = $this->files->get(substr(__DIR__,0, -5) . 'Stubs/'.$filename.'.stub');
+        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/' . $filename . '.stub');
 
         $this->buildStub($this->scaffoldCommandObj->getMeta(), $stub);
         // $this->replaceValidator($stub);
@@ -78,12 +79,13 @@ class MakePolicy
         $path = './app/Providers/AuthServiceProvider.php';
         $content = $this->files->get($path);
 
-        if (strpos($content, $policy_name) === false) {
+        if (strpos($content, $policy_name) === false)
+        {
             $content = str_replace(
                 'policies = [',
                 "policies = [\n\t\t \App\Models\\$model::class => \App\Policies\\$policy_name::class,",
                 $content
-                );
+            );
             $this->files->put($path, $content);
 
             return $this->scaffoldCommandObj->info('+ ' . $path . ' (Updated)');

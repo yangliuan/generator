@@ -1,8 +1,8 @@
 # Laravel 5.x Scaffold Generator
 
-[![Travis](https://img.shields.io/travis/summerblue/generator.svg?style=flat-square)](https://github.com/summerblue/generator)
-[![Packagist](https://img.shields.io/packagist/dt/summerblue/generator.svg?style=flat-square)](https://packagist.org/packages/summerblue/generator)
-[![Tag](https://img.shields.io/github/tag/summerblue/generator.svg)](https://github.com/summerblue/generator/tags)
+[![Travis](https://img.shields.io/travis/Yangliuan/generator.svg?style=flat-square)](https://github.com/Yangliuan/generator)
+[![Packagist](https://img.shields.io/packagist/dt/Yangliuan/generator.svg?style=flat-square)](https://packagist.org/packages/Yangliuan/generator)
+[![Tag](https://img.shields.io/github/tag/Yangliuan/generator.svg)](https://github.com/Yangliuan/generator/tags)
 
 Laravel Scaffold Generator, for Laravel 5.3.
 
@@ -13,32 +13,32 @@ Laravel Scaffold Generator, for Laravel 5.3.
 8.x:
 
 ```
-composer require "summerblue/generator:8.*" --dev
+composer require "Yangliuan/generator:8.*" --dev
 ```
 
 7.x:
 
 ```
-composer require "summerblue/generator:7.*" --dev
+composer require "Yangliuan/generator:7.*" --dev
 ```
 
 6.x:
 
 ```
-composer require "summerblue/generator:6.*" --dev
+composer require "Yangliuan/generator:6.*" --dev
 ```
 
 5.1 ~ 5.5:
 
 ```
-composer require "summerblue/generator:~0.5" --dev
+composer require "Yangliuan/generator:~0.5" --dev
 ```
 
 >= 5.6 (Bootstrap4):
 
 
 ```
-composer require "summerblue/generator:~1.0" --dev
+composer require "Yangliuan/generator:~1.0" --dev
 ```
 
 ### Step 2: Add the Service Provider
@@ -50,7 +50,7 @@ public function register()
 {
      if (app()->environment() == 'local' || app()->environment() == 'testing') {
 
-        $this->app->register(\Summerblue\Generator\GeneratorsServiceProvider::class);
+        $this->app->register(\Yangliuan\Generator\GeneratorsServiceProvider::class);
 
     }
 }

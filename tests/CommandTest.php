@@ -1,6 +1,6 @@
 <?php
 
-namespace Summerblue\Generator\Tests;
+namespace Yangliuan\Generator\Tests;
 
 use PHPUnit\Framework\TestCase as PHPUnit;
 
@@ -36,7 +36,7 @@ class CommandTest extends PHPUnit
     {
         $this->app = require __DIR__ . '/../vendor/laravel/laravel/bootstrap/app.php';
 
-        $this->app->register('Summerblue\Generator\GeneratorsServiceProvider');
+        $this->app->register('Yangliuan\Generator\GeneratorsServiceProvider');
 
         $this->app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
     }
@@ -66,42 +66,48 @@ class CommandTest extends PHPUnit
                 './app/Providers/AppServiceProvider.php',
                 './routes/web.php',
             ];
-
     }
 
     public function mountFolderStructure()
     {
-        foreach ($this->folders as $folder) {
+        foreach ($this->folders as $folder)
+        {
             $this->filesystem->makeDirectory($folder, 0777, true, true);
         }
 
 
-        foreach ($this->files as $file) {
+        foreach ($this->files as $file)
+        {
             $this->filesystem->put($file, '<?php');
         }
     }
 
     public function cleanFilesystem()
     {
-        foreach ($this->folders as $folder) {
+        foreach ($this->folders as $folder)
+        {
             $this->filesystem->deleteDirectory(explode("/", $folder)[0]);
         }
     }
 
     public function testExecuteCommand()
     {
-        Artisan::call('make:scaffold',
+        Artisan::call(
+            'make:scaffold',
             [
                 'name' => 'Tweet',
                 '--schema' => 'title:string',
                 '--no-interaction'
-            ]);
+            ]
+        );
 
-        Artisan::call('make:scaffold',
+        Artisan::call(
+            'make:scaffold',
             [
                 'name' => 'Tweet2',
                 '--schema' => 'title:string',
                 '--no-interaction'
-            ]);
+            ]
+        );
     }
 }

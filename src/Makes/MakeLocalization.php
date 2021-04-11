@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: fernandobritofl
@@ -6,12 +7,12 @@
  * Time: 10:34 PM
  */
 
-namespace Summerblue\Generator\Makes;
+namespace Yangliuan\Generator\Makes;
 
 use Illuminate\Filesystem\Filesystem;
-use Summerblue\Generator\Commands\ScaffoldMakeCommand;
-use Summerblue\Generator\Localizations\SchemaParser as LocalizationsParser;
-use Summerblue\Generator\Localizations\SyntaxBuilder as LocalizationsBuilder;
+use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
+use Yangliuan\Generator\Localizations\SchemaParser as LocalizationsParser;
+use Yangliuan\Generator\Localizations\SyntaxBuilder as LocalizationsBuilder;
 
 class MakeLocalization
 {
@@ -42,7 +43,7 @@ class MakeLocalization
      */
     protected function start()
     {
-        $path = $this->getPath($this->language_code . '/'.$this->scaffoldCommandObj->getObjName('Name'), 'localization');
+        $path = $this->getPath($this->language_code . '/' . $this->scaffoldCommandObj->getObjName('Name'), 'localization');
 
         $this->makeDirectory($path);
 
@@ -62,19 +63,22 @@ class MakeLocalization
      */
     protected function compileLocalizationStub()
     {
-        $stub = $this->files->get(substr(__DIR__,0, -5) . 'Stubs/localization.stub');
+        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/localization.stub');
 
         $this->build($stub);
 
         return $stub;
     }
 
-    private function build(&$stub){
+    private function build(&$stub)
+    {
         $this->replaceLocalization($stub);
     }
 
-    private function replaceLocalization(&$stub){
-        if($schema = $this->scaffoldCommandObj->option('localization')){
+    private function replaceLocalization(&$stub)
+    {
+        if ($schema = $this->scaffoldCommandObj->option('localization'))
+        {
             $schema = (new LocalizationsParser())->parse($schema);
         }
 
@@ -83,5 +87,4 @@ class MakeLocalization
 
         return $this;
     }
-
 }
