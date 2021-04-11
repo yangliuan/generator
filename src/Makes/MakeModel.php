@@ -99,7 +99,7 @@ class MakeModel
 
     protected function createBaseModelIfNotExists()
     {
-        $base_model_path = $this->getPath("Model", 'model');
+        $base_model_path = $this->getPath("BaseModel", 'model');
         if (!$this->files->exists($base_model_path))
         {
             $this->makeDirectory($base_model_path);

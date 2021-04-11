@@ -2,18 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Model extends EloquentModel
+class BaseModel extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'id';
+
+    protected $keyType = 'int';
+
+    public $incrementing = true;
+
+    public $timestamps = true;
+
+    protected $dateFormat = 'Y-m-d H:i:s';
+
     public function scopeRecent($query)
     {
         return $query->orderBy('id', 'desc');
     }
 
-    public function scopeOrdered($query)
+    protected function serializeDate(\DateTimeInterface $date)
     {
-        return $query->orderBy('order', 'desc');
+        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
     }
-
 }

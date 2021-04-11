@@ -3,3 +3,4 @@ Schema::create('{{models}}', function(Blueprint $table) {
             {{schema_up}}
             $table->timestamps();
         });
+DB::statement("ALTER TABLE {{models}} comment ''");
