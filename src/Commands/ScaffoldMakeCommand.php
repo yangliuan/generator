@@ -15,6 +15,7 @@ use Yangliuan\Generator\Makes\MakerTrait;
 use Yangliuan\Generator\Makes\MakeSeed;
 use Yangliuan\Generator\Makes\MakeView;
 use Yangliuan\Generator\Makes\MakeFormRequest;
+use Yangliuan\Generator\Makes\MakeApiRequest;
 use Yangliuan\Generator\Makes\MakePolicy;
 use Yangliuan\Generator\Makes\MakeModelObserver;
 use Symfony\Component\Console\Input\InputOption;
@@ -87,13 +88,13 @@ class ScaffoldMakeCommand extends Command
 
         $this->makeMeta();
 
-        if ($this->confirm('Do you want to make [migration,seed,model,controller,formRequest]?'))
+        if ($this->confirm('Do you want to make [migration,seed,model,adminController,adminRequest]?'))
         {
             $this->makeMigration();
             $this->makeSeed();
             $this->makeModel();
-            $this->makeController();
-            $this->makeFormRequest();
+            $this->makeController('admin');
+            $this->makeApiRequest('admin');
             goto footer;
         }
 
@@ -112,12 +113,27 @@ class ScaffoldMakeCommand extends Command
             $this->makeModel();
         }
 
-        if ($this->confirm('Do you want to make controller?'))
+        $controller = $this->choice('Do you want to make controller?', ['Admin', 'Api', 'No'], 0);
+        if ($controller == 'Admin')
         {
-            $this->makeController();
+            $this->makeController('admin');
+        }
+        elseif ($controller == 'Api')
+        {
+            $this->makeController('api');
         }
 
-        if ($this->confirm('Do you want to make form request?'))
+        $request = $this->choice('Do you want to make form request?', ['AdminRequest', 'ApiRequest', 'FormRequest', 'No'], 0);
+
+        if ($request == 'AdminRequest')
+        {
+            $this->makeApiRequest('admin');
+        }
+        elseif ($request == 'ApiRequest')
+        {
+            $this->makeApiRequest();
+        }
+        elseif ($request == 'FormRequest')
         {
             $this->makeFormRequest();
         }
@@ -174,6 +190,7 @@ class ScaffoldMakeCommand extends Command
 
         $this->meta['schema'] = $this->option('schema');
         $this->meta['prefix'] = ($prefix = $this->option('prefix')) ? "$prefix." : "";
+        $this->meta['comment'] = ($comment = $this->option('comment')) ? $comment : "";
     }
 
     /**
@@ -191,9 +208,9 @@ class ScaffoldMakeCommand extends Command
      *
      * @return void
      */
-    private function makeController()
+    private function makeController($prefix)
     {
-        new MakeController($this, $this->files);
+        new MakeController($this, $this->files, $prefix);
     }
 
     /**
@@ -258,6 +275,11 @@ class ScaffoldMakeCommand extends Command
     private function makeFormRequest()
     {
         new MakeFormRequest($this, $this->files);
+    }
+
+    private function makeApiRequest($prefix = '')
+    {
+        new MakeApiRequest($this, $this->files, $prefix);
     }
 
     private function makeModelObserver()
@@ -339,6 +361,13 @@ class ScaffoldMakeCommand extends Command
                     'p',
                     InputOption::VALUE_OPTIONAL,
                     'Generate schema with prefix',
+                    false
+                ],
+                [
+                    'comment',
+                    'c',
+                    InputOption::VALUE_OPTIONAL,
+                    'Generate schema comment',
                     false
                 ]
             ];

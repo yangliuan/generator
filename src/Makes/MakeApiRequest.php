@@ -7,8 +7,7 @@ use Yangliuan\Generator\Commands\ScaffoldMakeCommand;
 use Yangliuan\Generator\Validators\SchemaParser as ValidatorParser;
 use Yangliuan\Generator\Validators\SyntaxBuilder as ValidatorSyntax;
 
-
-class MakeController
+class MakeApiRequest
 {
     use MakerTrait;
 
@@ -39,55 +38,34 @@ class MakeController
      *
      * @return void
      */
-    private function start(string $prefix)
+    private function start($prefix = '')
     {
-        $name = $this->scaffoldCommandObj->getObjName('Names') . 'Controller';
+        $name = $this->scaffoldCommandObj->getObjName('Name');
+        $this->makeRequest('ApiRequest', 'request_api');
 
-        $stub = '';
-
-        if (in_array($prefix, ['api', 'admin']))
+        if ($prefix == 'admin')
         {
-            $name = ucfirst($prefix) . '/' . $name;
-
-            if ($prefix == 'api')
-            {
-                $stub = '_api';
-            }
-            elseif ($prefix == 'admin')
-            {
-                $stub = '_admin';
-            }
+            $name = 'Admin/' . $name;
         }
 
-        $path = $this->getPath($name, 'controller');
+        $this->makeRequest($name . 'Request', 'request_api_model');
+    }
+
+    protected function makeRequest($name, $stubname)
+    {
+        $path = $this->getPath($name, 'request');
 
         if ($this->files->exists($path))
         {
-            return $this->scaffoldCommandObj->comment("x " . $path);
+            return $this->scaffoldCommandObj->comment("x $path" . ' (Skipped)');
         }
 
         $this->makeDirectory($path);
 
-        $this->files->put($path, $this->compileControllerStub($stub));
+        $this->files->put($path, $this->compileStub($stubname));
 
         $this->scaffoldCommandObj->info('+ ' . $path);
     }
-
-    /**
-     * Compile the controller stub.
-     *
-     * @return string
-     */
-    protected function compileControllerStub($stub)
-    {
-        $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/controller' . $stub . '.stub');
-
-        $this->buildStub($this->scaffoldCommandObj->getMeta(), $stub);
-        // $this->replaceValidator($stub);
-
-        return $stub;
-    }
-
 
     // /**
     //  * Replace validator in the controller stub.
