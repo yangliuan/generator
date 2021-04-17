@@ -1,10 +1,8 @@
-# Laravel 5.x Scaffold Generator
+# Laravel 8.x Scaffold Generator
 
-[![Travis](https://img.shields.io/travis/Yangliuan/generator.svg?style=flat-square)](https://github.com/Yangliuan/generator)
-[![Packagist](https://img.shields.io/packagist/dt/Yangliuan/generator.svg?style=flat-square)](https://packagist.org/packages/Yangliuan/generator)
-[![Tag](https://img.shields.io/github/tag/Yangliuan/generator.svg)](https://github.com/Yangliuan/generator/tags)
+# 基于summerblue/generator项目进行的适合自己编程风格的改造,目前只兼容laravel8，交互式命令操作,可以根据需要选择想要生成的文件
 
-Laravel Scaffold Generator, for Laravel 5.3.
+Laravel Scaffold Generator, for Laravel.
 
 ## Install
 
@@ -14,31 +12,6 @@ Laravel Scaffold Generator, for Laravel 5.3.
 
 ```
 composer require "Yangliuan/generator:8.*" --dev
-```
-
-7.x:
-
-```
-composer require "Yangliuan/generator:7.*" --dev
-```
-
-6.x:
-
-```
-composer require "Yangliuan/generator:6.*" --dev
-```
-
-5.1 ~ 5.5:
-
-```
-composer require "Yangliuan/generator:~0.5" --dev
-```
-
->= 5.6 (Bootstrap4):
-
-
-```
-composer require "Yangliuan/generator:~1.0" --dev
 ```
 
 ### Step 2: Add the Service Provider
@@ -64,13 +37,12 @@ You're all set. Run `php artisan` from the console, and you'll see the new comma
 
 Use this command to generator scaffolding of **Project** in your project:
 
-> php artisan make:scaffold Projects --schema="name:string:index,description:text:nullable,subscriber_count:integer:unsigned:default(0)"
+> php artisan make:scaffold Projects --schema="name:string:index,description:text:nullable,subscriber_count:integer:unsigned:default(0)" --comment="项目表"
 
 This command will generate:
 
 ```
-$ php artisan make:scaffold Projects --schema="name:string:index,description:text:nullable,subscriber_count:integer:unsigned:default(0)"
-
+$ php artisan make:scaffold Projects --schema="name:string:index,description:text:nullable,subscriber_count:integer:unsigned:default(0)" --comment="项目表"
 
 ----------- scaffolding: Project -----------
 
@@ -128,3 +100,6 @@ Generate the following:
 
 ## Thanks to
 - [laralib/l5scaffold](https://github.com/laralib/l5scaffold)
+
+## Thanks to
+- [summerblue/generator](https://github.com/summerblue/generator)
