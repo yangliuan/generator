@@ -11,7 +11,7 @@ Laravel Scaffold Generator, for Laravel.
 8.x:
 
 ```
-composer require "Yangliuan/generator:8.*" --dev
+composer require "yangliuan/generator:8.*" --dev
 ```
 
 ### Step 2: Add the Service Provider
