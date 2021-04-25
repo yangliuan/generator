@@ -5,7 +5,7 @@
     "laravel",
     "generators",
     "scaffold",
-    "laravel5"
+    "laravel8"
   ],
   "license": "MIT",
   "minimum-stability": "dev",
