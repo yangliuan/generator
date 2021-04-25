@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\{{Model}};
 
-class {{Models}}TableSeeder extends Seeder
+class {{Model}}TableSeeder extends Seeder
 {
     public function run()
     {

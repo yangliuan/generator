@@ -3,6 +3,18 @@
 namespace App\Models;
 
 class {{Model}} extends BaseModel
-{    
+{   
+    protected $table = '{{models}}';
+
     protected $fillable = [{{fillable}}];
+
+    protected $dates = [];
+
+    protected $casts = [];
+
+    protected $appends = [];
+
+    protected $hidden = [
+        'pivot'
+    ];
 }
