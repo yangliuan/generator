@@ -41,7 +41,7 @@ class MakeController
      */
     private function start(string $prefix)
     {
-        $name = $this->scaffoldCommandObj->getObjName('Names') . 'Controller';
+        $name = $this->scaffoldCommandObj->getObjName('Name') . 'Controller';
 
         $stub = '';
 
