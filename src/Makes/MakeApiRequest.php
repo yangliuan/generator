@@ -46,9 +46,15 @@ class MakeApiRequest
         if ($prefix == 'admin')
         {
             $name = 'Admin/' . $name;
+            $stubname = 'request_admin_model';
+        }
+        else
+        {
+            $name = 'Api/' . $name;
+            $stubname = 'request_api_model';
         }
 
-        $this->makeRequest($name . 'Request', 'request_api_model');
+        $this->makeRequest($name . 'Request', $stubname);
     }
 
     protected function makeRequest($name, $stubname)
