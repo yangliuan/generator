@@ -90,20 +90,36 @@ class ScaffoldMakeCommand extends Command
 
         $this->makeMeta();
 
-        if ($this->confirm('Do you want to make [migration,seed,model,adminModelFilter,adminController,adminRequest]?'))
+        $prefix = $this->choice('Do you want to make [migration,seed,model,filter,controller,request]', ['admin', 'api', 'no'], 0);
+        if ($prefix !== 'no')
         {
             $this->makeMigration();
             $this->makeSeed();
             $this->makeModel();
-            $this->makeModelFilter('admin');
-            $this->makeController('admin');
-            $this->makeApiRequest('admin');
+            $this->makeModelFilter($prefix);
+            $this->makeController($prefix);
+            $this->makeApiRequest($prefix);
             goto footer;
         }
 
         if ($this->confirm('Do you want to make migration?'))
         {
             $this->makeMigration();
+        }
+
+        $request = $this->choice('Do you want to make form request?', ['AdminRequest', 'ApiRequest', 'FormRequest', 'No'], 0);
+
+        if ($request == 'AdminRequest')
+        {
+            $this->makeApiRequest('admin');
+        }
+        elseif ($request == 'ApiRequest')
+        {
+            $this->makeApiRequest();
+        }
+        elseif ($request == 'FormRequest')
+        {
+            $this->makeFormRequest();
         }
 
         if ($this->confirm('Do you want to make seed?'))
@@ -117,7 +133,6 @@ class ScaffoldMakeCommand extends Command
         }
 
         $modelFilter = $this->choice('Do you want to make model filter?', ['Admin', 'Api', 'No'], 0);
-
         if ($modelFilter == 'Admin')
         {
             $this->makeModelFilter('admin');
@@ -137,21 +152,6 @@ class ScaffoldMakeCommand extends Command
             $this->makeController('api');
         }
 
-        $request = $this->choice('Do you want to make form request?', ['AdminRequest', 'ApiRequest', 'FormRequest', 'No'], 0);
-
-        if ($request == 'AdminRequest')
-        {
-            $this->makeApiRequest('admin');
-        }
-        elseif ($request == 'ApiRequest')
-        {
-            $this->makeApiRequest();
-        }
-        elseif ($request == 'FormRequest')
-        {
-            $this->makeFormRequest();
-        }
-
         if ($this->confirm('Do you want to make model observer?'))
         {
             $this->makeModelObserver();
@@ -161,11 +161,6 @@ class ScaffoldMakeCommand extends Command
         {
             $this->makePolicy();
         }
-
-        // if ($this->confirm('Do you want to make route?'))
-        // {
-        //     $this->makeRoute();
-        // }
 
         footer:
 
