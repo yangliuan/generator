@@ -35,64 +35,58 @@ You're all set. Run `php artisan` from the console, and you'll see the new comma
 
 ## Examples
 
-Use this command to generator scaffolding of **Project** in your project:
+```
+$ php artisan make:scaffold GoodsCommentPic --schema="goods_comment_id:integer(false,true):default(0):comment('商品评价id'):index('goods_comment_id','goods_comment_id'),url:string(255):default(''):comment('文件url')" --comment="商品评价图组表"
 
-> php artisan make:scaffold Projects --schema="name:string:index,description:text:nullable,subscriber_count:integer:unsigned:default(0)" --comment="项目表"
+----------- scaffolding: GoodsCommentPic -----------
 
-This command will generate:
+ Do you want to make [migration,seed,model,filter,controller,request] [admin]:
+  [0] admin
+  [1] api
+  [2] no
+ > 2
+
+ Do you want to make migration? (yes/no) [no]:
+ > 
+
+ Do you want to make form request? [AdminRequest]:
+  [0] AdminRequest
+  [1] ApiRequest
+  [2] FormRequest
+  [3] No
+ > 3
+
+ Do you want to make seed? (yes/no) [no]:
+ > 
+
+ Do you want to make model? (yes/no) [no]:
+ > 
+
+ Do you want to make model filter? [Admin]:
+  [0] Admin
+  [1] Api
+  [2] No
+ > 2
+
+ Do you want to make controller? [Admin]:
+  [0] Admin
+  [1] Api
+  [2] No
+ > 2
+
+ Do you want to make model observer? (yes/no) [no]:
+ > 
+
+ Do you want to make policy? (yes/no) [no]:
+ > 
+
+ Do you want to run migrate? (yes/no) [no]:
+ > 
+
+----------- ---------------------------- -----------
+-----------       >DUMP AUTOLOAD<        -----------
 
 ```
-$ php artisan make:scaffold Projects --schema="name:string:index,description:text:nullable,subscriber_count:integer:unsigned:default(0)" --comment="项目表"
-
------------ scaffolding: Project -----------
-
-+ ./database/migrations/2017_04_17_065656_create_projects_table.php
-+ ./database/factories/ModelFactory.php
-+ ./database/seeders/ProjectsTableSeeder.php
-+ ./database/seeders/DatabaseSeeder.php (Updated)
-x ./app/Models/Model.php (Skipped)
-+ ./app/Models/Project.php
-+ ./app/Http/Controllers/ProjectsController.php
-x ./app/Http/Requests/Request.php (Skipped)
-+ ./app/Http/Requests/ProjectRequest.php
-+ ./app/Observers/ProjectObserver.php
-+ ./app/Providers/AppServiceProvider.php (Updated)
-x ./app/Policies/Policy.php
-+ ./app/Policies/ProjectPolicy.php
-+ ./app/Providers/AuthServiceProvider.php (Updated)
-+ ./routes/web.php (Updated)
-
---- Views ---
-   + create_and_edit.blade.php
-   + index.blade.php
-   + show.blade.php
-x ./resources/views/error.blade.php
-Migrated: 2017_04_17_065656_create_projects_table
-
------------ -------------------- -----------
------------   >DUMP AUTOLOAD<    -----------
-```
-
-## Explain
-
-Generate the following:
-
-- Migration
-- Seed, add ModelFactory entry, and DatabaseSeeder entry
-- Base Model class, Model and helper trait
-- Resource Controller
-- Base FormRequest class and StoreRequest, UpdateRequest
-- Policy and Policy base class, auto register AuthServiceProvider class
-- Update routes file to register resource route
-- Add error page view
-- Create and Edit action share the same view
-
-## Future Plan
-
-- API
-- Admin
-- Auto fill FormRequest rule
-- Auto fill ModelFactory filed
 
 ## Screenshot
 
