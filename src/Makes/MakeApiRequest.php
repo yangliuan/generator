@@ -41,6 +41,7 @@ class MakeApiRequest
     private function start($prefix = '')
     {
         $name = $this->scaffoldCommandObj->getObjName('Name');
+
         $this->makeRequest('ApiRequest', 'request_api');
 
         if ($prefix == 'admin')

@@ -40,7 +40,7 @@ class MakeModel
      */
     private function start()
     {
-        $name = $this->scaffoldCommandObj->getObjName('Name');
+        $name = $this->scaffoldCommandObj->getObjName('Name');;
         $path = $this->getPath($name, 'model');
 
         $this->createBaseModelIfNotExists();

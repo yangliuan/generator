@@ -47,9 +47,9 @@ class MakeMigration
      */
     protected function start()
     {
-        $name = 'create_' . \Str::plural(strtolower($this->scaffoldCommandObj->argument('name'))) . '_table';
+        $name = 'create_' . strtolower($this->scaffoldCommandObj->getObjName('names')) . '_table';
         $path = $this->getPath($name);
-        //dd($name, $path);
+        //dd($this->scaffoldCommandObj->argument('name'), $name, $path);
         if (!$this->classExists($name))
         {
             $this->makeDirectory($path);

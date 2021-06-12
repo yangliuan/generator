@@ -20,6 +20,7 @@ use Yangliuan\Generator\Makes\MakePolicy;
 use Yangliuan\Generator\Makes\MakeModelObserver;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 
 class ScaffoldMakeCommand extends Command
 {
@@ -394,17 +395,15 @@ class ScaffoldMakeCommand extends Command
     {
         $names = [];
         $args_name = $this->argument('name');
-
-        // Name[0] = Tweet
-        $names['Name'] = \Str::singular(ucfirst($args_name));
+        // Name[0] = Tweet  
+        $names['Name'] = ucfirst($args_name);
         // Name[1] = Tweets
-        $names['Names'] = \Str::plural(ucfirst($args_name));
+        $names['Names'] = Str::plural(ucfirst($args_name));
         // Name[2] = tweets
-        $names['names'] = \Str::plural(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
+        $names['names'] = Str::plural(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
         // Name[3] = tweet
-        $names['name'] = \Str::singular(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
-
-
+        $names['name'] = Str::singular(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
+        //dd($names);
         if (!isset($names[$config]))
         {
             throw new \Exception("Position name is not found");
