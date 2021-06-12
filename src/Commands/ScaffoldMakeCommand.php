@@ -10,6 +10,7 @@ use Yangliuan\Generator\Makes\MakeLayout;
 use Yangliuan\Generator\Makes\MakeLocalization;
 use Yangliuan\Generator\Makes\MakeMigration;
 use Yangliuan\Generator\Makes\MakeModel;
+use Yangliuan\Generator\Makes\MakeModelFilter;
 use Yangliuan\Generator\Makes\MakeRoute;
 use Yangliuan\Generator\Makes\MakerTrait;
 use Yangliuan\Generator\Makes\MakeSeed;
@@ -89,11 +90,12 @@ class ScaffoldMakeCommand extends Command
 
         $this->makeMeta();
 
-        if ($this->confirm('Do you want to make [migration,seed,model,adminController,adminRequest]?'))
+        if ($this->confirm('Do you want to make [migration,seed,model,adminModelFilter,adminController,adminRequest]?'))
         {
             $this->makeMigration();
             $this->makeSeed();
             $this->makeModel();
+            $this->makeModelFilter('admin');
             $this->makeController('admin');
             $this->makeApiRequest('admin');
             goto footer;
@@ -112,6 +114,17 @@ class ScaffoldMakeCommand extends Command
         if ($this->confirm('Do you want to make model?'))
         {
             $this->makeModel();
+        }
+
+        $modelFilter = $this->choice('Do you want to make model filter?', ['Admin', 'Api', 'No'], 0);
+
+        if ($modelFilter == 'Admin')
+        {
+            $this->makeModelFilter('admin');
+        }
+        elseif ($modelFilter == 'Api')
+        {
+            $this->makeModelFilter('api');
         }
 
         $controller = $this->choice('Do you want to make controller?', ['Admin', 'Api', 'No'], 0);
@@ -233,6 +246,16 @@ class ScaffoldMakeCommand extends Command
     protected function makeModel()
     {
         new MakeModel($this, $this->files);
+    }
+
+    /**
+     * Generate an Eloquent model Filter, if the user wishes.
+     *
+     * @return void
+     */
+    protected function makeModelFilter($prefix)
+    {
+        new MakeModelFilter($this, $this->files, $prefix);
     }
 
     /**

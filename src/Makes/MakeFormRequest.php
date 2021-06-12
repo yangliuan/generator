@@ -25,7 +25,7 @@ class MakeFormRequest
      * @param Filesystem $files
      * @return void
      */
-    function __construct(ScaffoldMakeCommand $scaffoldCommand, Filesystem $files)
+    public function __construct(ScaffoldMakeCommand $scaffoldCommand, Filesystem $files)
     {
         $this->files = $files;
         $this->scaffoldCommandObj = $scaffoldCommand;
