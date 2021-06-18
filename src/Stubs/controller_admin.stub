@@ -9,11 +9,6 @@ use App\Http\Requests\Admin\{{Model}}Request;
 
 class {{Model}}Controller extends Controller
 {	
-	public function __construct()
-	{
-		//$this->middleware(['auth:admin', 'scope:admin']);
-	}
-
 	public function index(Request $request)
 	{
 		${{models}} = {{Model}}::select()

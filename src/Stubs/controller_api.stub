@@ -9,11 +9,6 @@ use App\Http\Requests\Api\{{Model}}Request;
 
 class {{Model}}Controller extends Controller
 {	
-	public function __construct()
-	{
-		//$this->middleware(['auth:api', 'scope:api']);
-	}
-
 	public function index(Request $request)
 	{
 		${{models}} = {{Model}}::select()
